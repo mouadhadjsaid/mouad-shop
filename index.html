@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouad Shop - متجرك الإلكتروني</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🛍️ Mouad Shop</h1>
+                </div>
+                <nav class="nav">
+                    <a href="#home" class="nav-link">الرئيسية</a>
+                    <a href="#products" class="nav-link">المنتجات</a>
+                    <a href="#contact" class="nav-link">اتصل بنا</a>
+                    <a href="admin.html" class="nav-link admin-btn">لوحة الإدارة</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>مرحباً بك في متجر معاذ</h2>
+            <p>أفضل المنتجات بأفضل الأسعار</p>
+            <button class="hero-btn" onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})">
+                تصفح المنتجات
+            </button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <h2 class="section-title">منتجاتنا المتاحة</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here from localStorage -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title">تواصل معنا</h2>
+            <div class="contact-content">
+                <div class="contact-card">
+                    <h3>📞 الواتساب</h3>
+                    <p>تحدث معنا مباشرة عبر الواتساب</p>
+                    <a href="https://wa.me/218761814642" target="_blank" class="contact-btn">
+                        رقم الواتساب: 0761814642
+                    </a>
+                </div>
+                <div class="contact-card">
+                    <h3>👥 فيسبوك</h3>
+                    <p>تابعنا على صفحتنا الرسمية</p>
+                    <a href="https://facebook.com/profile.php?id=61578600392928" target="_blank" class="contact-btn">
+                        زيارة صفحة فيسبوك
+                    </a>
+                </div>
+                <div class="contact-card">
+                    <h3>📧 البريد الإلكتروني</h3>
+                    <p>أرسل لنا بريداً إلكترونياً</p>
+                    <a href="mailto:mouad@shop.com" class="contact-btn">
+                        mouad@shop.com
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Mouad Shop. جميع الحقوق محفوظة.</p>
+            <div class="footer-links">
+                <a href="https://wa.me/218761814642" target="_blank">واتساب</a>
+                <a href="https://facebook.com/profile.php?id=61578600392928" target="_blank">فيسبوك</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
