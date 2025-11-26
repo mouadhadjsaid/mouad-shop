@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سلة المشتريات - Mouad Shop</title>
+    <link rel="stylesheet" href="cart-styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🛍️ Mouad Shop</h1>
+                </div>
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">← العودة للمتجر</a>
+                    <div class="user-menu">
+                        <span id="userName" class="user-name"></span>
+                        <button class="logout-btn" id="logoutBtn" style="display: none;" onclick="logout()">خروج</button>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <div class="cart-container">
+            <!-- Cart Items -->
+            <section class="cart-section">
+                <h2>🛒 سلة المشتريات</h2>
+                <div class="cart-items" id="cartItems">
+                    <!-- Items will be loaded here -->
+                </div>
+                <div id="emptyCart" class="empty-state" style="display: none;">
+                    <h3>السلة فارغة</h3>
+                    <p>لم تضف أي منتجات بعد</p>
+                    <a href="index.html" class="btn btn-primary">تصفح المنتجات</a>
+                </div>
+            </section>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="cart-sidebar">
+            <!-- Order Summary -->
+            <div class="summary-card">
+                <h3>ملخص الطلب</h3>
+                <div class="summary-item">
+                    <span>عدد المنتجات</span>
+                    <span id="itemsCount">0</span>
+                </div>
+                <div class="summary-item">
+                    <span>السعر الأساسي</span>
+                    <span id="subtotal">0 د</span>
+                </div>
+                <div class="summary-item">
+                    <span>الضريبة (5%)</span>
+                    <span id="tax">0 د</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-item total">
+                    <span>المجموع</span>
+                    <span id="total">0 د</span>
+                </div>
+                <button class="btn btn-primary checkout-btn" onclick="goToCheckout()">متابعة الشراء</button>
+            </div>
+
+            <!-- Customer Info -->
+            <div class="customer-card" id="customerCard" style="display: none;">
+                <h3>معلوماتك</h3>
+                <div class="info-item">
+                    <label>الاسم</label>
+                    <p id="customerName"></p>
+                </div>
+                <div class="info-item">
+                    <label>البريد</label>
+                    <p id="customerEmail"></p>
+                </div>
+                <div class="info-item">
+                    <label>الهاتف</label>
+                    <p id="customerPhone"></p>
+                </div>
+                <button class="btn btn-secondary" onclick="logout()">تسجيل خروج</button>
+            </div>
+
+            <!-- Guest Info -->
+            <div class="guest-card" id="guestCard" style="display: none;">
+                <h3>👤 متابعة كزائر</h3>
+                <p>لتتمكن من حفظ طلباتك وتتبعها، <a href="customer-login.html">أنشئ حساباً أو دخّل</a></p>
+                <button class="btn btn-secondary" onclick="loginNow()">دخول الآن</button>
+            </div>
+
+            <!-- Promo Code -->
+            <div class="promo-card">
+                <h3>🎁 كود خصم</h3>
+                <input type="text" id="promoCode" placeholder="أدخل كود خصم" class="promo-input">
+                <button class="btn btn-secondary" onclick="applyPromo()">تطبيق</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCheckout()">&times;</span>
+            <h2>تأكيد الطلب</h2>
+
+            <form id="checkoutForm">
+                <div class="form-section">
+                    <h3>معلومات التوصيل</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>الاسم الكامل *</label>
+                            <input type="text" id="checkoutName" required placeholder="أحمد محمد">
+                        </div>
+                        <div class="form-group">
+                            <label>البريد الإلكتروني *</label>
+                            <input type="email" id="checkoutEmail" required placeholder="your@email.com">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>رقم الهاتف *</label>
+                            <input type="tel" id="checkoutPhone" required placeholder="0761814642">
+                        </div>
+                        <div class="form-group">
+                            <label>المدينة *</label>
+                            <input type="text" id="checkoutCity" required placeholder="طرابلس">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>العنوان *</label>
+                        <textarea id="checkoutAddress" required placeholder="أدخل العنوان بالتفصيل" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>طريقة الدفع</h3>
+                    <label class="radio-label">
+                        <input type="radio" name="payment" value="cash" checked>
+                        <span>💵 الدفع عند الاستقبال</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="payment" value="bank">
+                        <span>🏦 تحويل بنكي</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="payment" value="wallet">
+                        <span>📱 محفظة رقمية</span>
+                    </label>
+                </div>
+
+                <div class="order-summary">
+                    <p>المجموع النهائي: <strong id="finalTotal">0 د</strong></p>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">تأكيد الطلب</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeCheckout()">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Mouad Shop. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+</body>
+</html>

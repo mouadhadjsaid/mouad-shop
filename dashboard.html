@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة - Mouad Shop</title>
+    <link rel="stylesheet" href="dashboard-styles.css">
+</head>
+<body>
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="admin-container">
+            <div class="admin-logo">
+                <h1>🔧 لوحة إدارة Mouad Shop</h1>
+            </div>
+            <div class="admin-nav">
+                <a href="index.html" class="back-btn" target="_blank">← عرض المتجر</a>
+                <button class="logout-btn" onclick="logout()">تسجيل خروج</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container main-content">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" onclick="showSection('products')">
+                    📦 المنتجات
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('add')">
+                    ➕ إضافة منتج
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('stats')">
+                    📊 الإحصائيات
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('settings')">
+                    ⚙️ الإعدادات
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="admin-content">
+            <!-- Products Section -->
+            <section id="products-section" class="section active">
+                <h2>إدارة المنتجات</h2>
+                <div class="management-controls">
+                    <input type="text" id="searchProducts" placeholder="ابحث عن المنتج..." class="search-box">
+                    <select id="filterCategory" class="filter-select">
+                        <option value="">جميع الفئات</option>
+                        <option value="كتب">كتب</option>
+                        <option value="دورات">دورات</option>
+                        <option value="أدوات">أدوات</option>
+                        <option value="الكترونيات">الكترونيات</option>
+                    </select>
+                </div>
+
+                <div class="products-table-wrapper">
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>الرمز</th>
+                                <th>اسم المنتج</th>
+                                <th>الوصف</th>
+                                <th>السعر</th>
+                                <th>الفئة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div id="emptyState" class="empty-message" style="display: none;">
+                    <p>لا توجد منتجات</p>
+                </div>
+            </section>
+
+            <!-- Add Product Section -->
+            <section id="add-section" class="section">
+                <h2>إضافة منتج جديد</h2>
+                <form id="addProductForm" class="product-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productName">اسم المنتج *</label>
+                            <input type="text" id="productName" required placeholder="أدخل اسم المنتج">
+                        </div>
+                        <div class="form-group">
+                            <label for="productPrice">السعر (دينار) *</label>
+                            <input type="number" id="productPrice" required min="0" step="0.01" placeholder="السعر">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productCategory">الفئة</label>
+                            <input type="text" id="productCategory" placeholder="مثال: كتب، أدوات">
+                        </div>
+                        <div class="form-group">
+                            <label for="productEmoji">رمز المنتج</label>
+                            <input type="text" id="productEmoji" placeholder="مثال: 📚 أو 💻">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="productDescription">وصف المنتج</label>
+                        <textarea id="productDescription" rows="4" placeholder="أدخل وصف تفصيلي"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">إضافة المنتج</button>
+                </form>
+            </section>
+
+            <!-- Stats Section -->
+            <section id="stats-section" class="section">
+                <h2>إحصائيات المتجر</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-info">
+                            <div class="stat-label">إجمالي المنتجات</div>
+                            <div class="stat-value" id="totalProducts">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <div class="stat-label">إجمالي القيمة</div>
+                            <div class="stat-value" id="totalValue">0 د</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-info">
+                            <div class="stat-label">متوسط السعر</div>
+                            <div class="stat-value" id="avgPrice">0 د</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-info">
+                            <div class="stat-label">أغلى منتج</div>
+                            <div class="stat-value" id="maxPrice">0 د</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="section">
+                <h2>الإعدادات</h2>
+                <div class="settings-card">
+                    <h3>📞 معلومات الاتصال</h3>
+                    <div class="form-group">
+                        <label>رقم الواتساب</label>
+                        <input type="text" id="whatsappNumber" placeholder="0761814642" value="218761814642">
+                    </div>
+                    <div class="form-group">
+                        <label>رابط الفيسبوك</label>
+                        <input type="text" id="facebookLink" placeholder="facebook.com/..." value="facebook.com/profile.php?id=61578600392928">
+                    </div>
+                    <button class="btn btn-primary" onclick="saveSettings()">حفظ الإعدادات</button>
+                </div>
+
+                <div class="settings-card danger-zone">
+                    <h3>⚠️ منطقة خطرة</h3>
+                    <button class="btn btn-danger" onclick="clearAllProducts()">حذف جميع المنتجات</button>
+                    <button class="btn btn-secondary" onclick="exportProducts()">تصدير البيانات</button>
+                    <button class="btn btn-danger" onclick="logout()">تسجيل خروج</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>تعديل المنتج</h2>
+            <form id="editProductForm" class="product-form">
+                <input type="hidden" id="editProductId">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editProductName">اسم المنتج *</label>
+                        <input type="text" id="editProductName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductPrice">السعر *</label>
+                        <input type="number" id="editProductPrice" required min="0" step="0.01">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editProductCategory">الفئة</label>
+                        <input type="text" id="editProductCategory">
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductEmoji">الرمز</label>
+                        <input type="text" id="editProductEmoji">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="editProductDescription">الوصف</label>
+                    <textarea id="editProductDescription" rows="4"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="admin-footer">
+        <p>&copy; 2025 Mouad Shop - لوحة الإدارة</p>
+    </footer>
+
+    <script src="dashboard-script.js"></script>
+</body>
+</html>

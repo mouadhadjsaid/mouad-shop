@@ -78,7 +78,7 @@ function loadProducts() {
                         <span class="product-price">${product.price}</span>
                         <span class="product-currency"> ${product.currency}</span>
                     </div>
-                    <button class="product-action" onclick="addToCart(${product.id})">شراء</button>
+                    <button class="product-action" onclick="addToCart(${product.id})">🛒 شراء</button>
                 </div>
             </div>
         `;
@@ -86,13 +86,49 @@ function loadProducts() {
     });
 }
 
-// Add to cart (can be extended with actual cart functionality)
+// Add to cart
 function addToCart(productId) {
-    alert(`تمت إضافة المنتج #${productId} إلى السلة!`);
+    const products = JSON.parse(localStorage.getItem('mouadShopProducts') || '[]');
+    const product = products.find(p => p.id === productId);
+
+    if (!product) return;
+
+    const cart = JSON.parse(localStorage.getItem('mouadShopCart') || '[]');
+    const existingItem = cart.find(i => i.id === productId);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            id: product.id,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            image: product.image,
+            quantity: 1
+        });
+    }
+
+    localStorage.setItem('mouadShopCart', JSON.stringify(cart));
+    updateCartBadge();
+    alert('✓ تمت إضافة المنتج إلى السلة!');
+}
+
+// Update cart badge
+function updateCartBadge() {
+    const cart = JSON.parse(localStorage.getItem('mouadShopCart') || '[]');
+    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const badge = document.getElementById('cartBadge');
+    
+    if (badge) {
+        badge.textContent = count;
+        badge.style.display = count > 0 ? 'flex' : 'none';
+    }
 }
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     initializeProducts();
     loadProducts();
+    updateCartBadge();
 });
