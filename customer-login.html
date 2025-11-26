@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - Mouad Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 900px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .login-section, .register-section {
+            padding: 40px;
+            display: none;
+        }
+
+        .login-section.active, .register-section.active {
+            display: block;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .error-message {
+            background-color: #ffe0e0;
+            color: #ff4757;
+            border: 1px solid #ff4757;
+        }
+
+        .success-message {
+            background-color: #e0ffe0;
+            color: #2ed573;
+            border: 1px solid #2ed573;
+        }
+
+        .toggle-section {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .toggle-section a {
+            color: #667eea;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .toggle-section a:hover {
+            text-decoration: underline;
+        }
+
+        .guest-btn {
+            background-color: #e0e0e0;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .guest-btn:hover {
+            background-color: #d0d0d0;
+        }
+
+        .side-image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .side-image h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .side-image p {
+            font-size: 16px;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .side-image {
+                display: none;
+            }
+
+            .login-section, .register-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Section -->
+        <div class="login-section active">
+            <div class="header">
+                <h1>🛍️ Mouad Shop</h1>
+                <p>تسجيل الدخول</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="message error-message" id="loginError"></div>
+
+                <div class="form-group">
+                    <label for="loginEmail">البريد الإلكتروني</label>
+                    <input type="email" id="loginEmail" required placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">كلمة المرور</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn">دخول</button>
+
+                <div class="toggle-section">
+                    ليس لديك حساب؟ <a onclick="toggleForms()">أنشئ حساباً جديداً</a>
+                </div>
+
+                <button type="button" class="btn guest-btn" onclick="continueAsGuest()">متابعة كزائر</button>
+            </form>
+        </div>
+
+        <!-- Register Section -->
+        <div class="register-section">
+            <div class="header">
+                <h1>🎉 مرحباً</h1>
+                <p>أنشئ حسابك الجديد</p>
+            </div>
+
+            <form id="registerForm">
+                <div class="message error-message" id="registerError"></div>
+                <div class="message success-message" id="registerSuccess"></div>
+
+                <div class="form-group">
+                    <label for="registerName">الاسم الكامل</label>
+                    <input type="text" id="registerName" required placeholder="أحمد محمد">
+                </div>
+
+                <div class="form-group">
+                    <label for="registerEmail">البريد الإلكتروني</label>
+                    <input type="email" id="registerEmail" required placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPhone">رقم الهاتف</label>
+                    <input type="tel" id="registerPhone" required placeholder="0761814642">
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPassword">كلمة المرور</label>
+                    <input type="password" id="registerPassword" required placeholder="••••••••" minlength="6">
+                </div>
+
+                <button type="submit" class="btn">إنشاء حساب</button>
+
+                <div class="toggle-section">
+                    لديك حساب بالفعل؟ <a onclick="toggleForms()">دخول</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Side Image -->
+        <div class="side-image">
+            <h2>🛒</h2>
+            <p>تسوق معنا بسهولة وأمان</p>
+            <p style="margin-top: 20px; font-size: 14px; opacity: 0.8;">احفظ مشترياتك وتابع طلباتك</p>
+        </div>
+    </div>
+
+    <script src="customer-auth.js"></script>
+</body>
+</html>

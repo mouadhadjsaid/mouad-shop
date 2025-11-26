@@ -52,11 +52,36 @@ body {
     transition: all 0.3s ease;
     padding: 8px 16px;
     border-radius: 5px;
+    position: relative;
 }
 
 .nav-link:hover {
     background-color: rgba(255,255,255,0.2);
     transform: translateY(-2px);
+}
+
+.cart-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+}
+
+.cart-badge {
+    background-color: #ff4757;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    display: none;
 }
 
 .admin-btn {
